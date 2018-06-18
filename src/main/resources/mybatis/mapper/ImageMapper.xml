@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="countstar.counts2.dao.imageDAO">
+	<resultMap id="imageMap" type="countstar.counts2.model.Images">
+		<result column="pid" property="pid" />
+		<result column="aid" property="aid" />
+		<result column="phnumw" property="phNumW" />
+		<result column="ismodified" property="isModified" />
+		<result column="issubmitted" property="isSubmitted" />
+		<result column="isqualified" property="isQualified" />
+	</resultMap>
+	<!-- 任务发布时可以同时储存图片 -->
+	<insert id="insertI" >
+		insert into images (pid,aid,phnumw,ismodified,issubmitted,isqualified)
+		values
+	    (#{images.pid},#{images.aid},#{images.phNumW},#{images.isModified},#{images.isSubmitted},#{images.isQualified})
+	</insert>
+
+
+	<!-- 更新图片信息 -->
+	<update id="updateI">
+		update images set pid=#{images.pid} ,aid=#{images.aid},phnumw=#{images.phNumW},ismodified=#{images.isModified},issubmitted=#{images.isSubmitted},isqualified=#{images.isQualified}
+	</update>
+
+
+	<!-- 根据任务编号得到所有相关图片的信息 -->
+	<select id="getImagesByAid" resultMap="imageMap">
+		select * from images where aid = #{aid}
+	</select>
+
+
+	<!-- 根据任务编号得到已经完成的数量 -->
+	<select id="getNumOfCompletedByAid" resultMap="imageMap">
+		select * from images where aid = #{aid} and iscompleted =#{1}
+	</select>
+
+
+
+	<!-- 根据任务编号得到图片总的数量 -->
+	<select id="getNumByAid" resultMap="imageMap">
+	select *from images where aid = #{aid}
+	</select>
+
+
+</mapper>

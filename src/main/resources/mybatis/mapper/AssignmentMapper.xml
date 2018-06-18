@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="countstar.counts2.dao.assignmentDAO">
+	<resultMap id="assignmentMap" type="countstar.counts2.model.Assignment">
+		<result column="aid" property="aid" />
+		<result column="requester" property="requester" />
+		<result column="title" property="title" />
+		<result column="detail" property="detail" />
+		<result column="rewardperpic" property="rewardPerPic" />
+		<result column="maxnumofw" property="maxNumOfW" />
+		<result column="totalworkers" property="totalWorkers" />
+		<result column="starttime" property="startTime" />
+		<result column="endtime" property="endTime" />
+		<result column="iscompleted" property="isCompleted" />
+		<result column="iscleared" property="isCleared" />
+		<result column="cr" property="CR" />
+	</resultMap>
+	<!-- 加入新的任务 -->
+	<insert id="insertA" >
+		insert into assignments (aid,requester,title,detail,rewardperpic,maxnumofw,totalworkers,starttime,endtime,iscompleted,iscleared,cr)
+		values
+	    (#{assignments.aid},#{assignments.requester},#{assignments.title},#{assignments.detail},#{assignments.rewardPerPic},#{assignments.maxNumOfW},#{assignments.totalWorkers},#{assignments.startTime},#{assignments.endTime},#{assignments.isCompleted},#{assignments.isCleared},#{assignments.CR})
+	</insert>
+
+
+	<!-- 得到所有进行中任务 -->
+	<select id="getAllOngoingAssignments" resultMap="assignmentMap">
+		select * from assignments where iscompleted = #{0}
+	</select>
+
+
+	<!-- 根据任务发布者得到所有任务列表 -->
+	<select id="getAllAssignmentsByRequester" resultMap="assignmentMap">
+		select * from assignments where requester = #{requesterNum}
+	</select>
+
+
+	<!-- 根据任务发布者得到正在进行的任务列表 -->
+	<select id="getOngoingAssignmentsByRequester" resultMap="assignmentMap">
+		select * from assignments where requester = #{requesterNum} and iscompleted =#{0}
+	</select>
+
+
+
+	<!-- 根据任务发布者得到已经完成但是未结算的任务列表 -->
+	<select id="getCompletedAssignmentsByRequester" resultMap="assignmentMap">
+	select *from assignments where requester = #{requesterNum} and iscompleted =#{1} and iscleared =#{0}
+	</select>
+
+
+	<!-- 根据任务发布者得到已经结算的任务列表 -->
+	<select id="getClearedAssignmentsByRequester" resultMap="assignmentMap">
+		select *from assignments where requester = #{requesterNum} and iscleared =#{1}
+	</select>
+
+	<!-- 根据编号得到具体的任务 -->
+	<select id="getAssignmentById" resultMap="assignmentMap">
+		select *from assignments where aid = #{aid}
+	</select>
+
+
+
+</mapper>

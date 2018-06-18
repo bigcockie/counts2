@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="countstar.counts2.dao.UserDAO.adminDAO">
+	<resultMap id="adminMap" type="countstar.counts2.model.Admin">
+		<result column="phnum" property="phNum" />
+		<result column="psw" property="psw" />
+		<result column="nickname" property="nickName" />
+	</resultMap>
+	<!-- 判断是否存在此用户 -->
+	<select id="isExist" resultType="Integer">
+		select 1 from admins where phnum = #{phNum} limit 1
+	</select>
+
+
+	<!-- 根据手机号管理员信息 -->
+	<select id="getAdminByPhNum" resultMap="adminMap">
+		select * from admins where admins.phnum = #{phNum}
+	</select>
+
+
+	<!-- 得到所有管理员信息 -->
+	<select id="getAllAdmin" resultMap="adminMap">
+		select * from admins
+	</select>
+
+
+	<!-- 更新众包工人信息 -->
+	<update id="updateA">
+		update admins set phnum = #{admin.phNum},psw = #{admin.psw},nickname = #{admin.nickName}
+	</update>
+
+
+
+	<!-- 新建用户信息 -->
+	<insert id="insertA">
+		insert into admins (phnum,psw,nickname)
+		values
+		(#{admin.phNum},#{admin.psw},#{admin.nickname})
+	</insert>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="countstar.counts2.dao.UserDAO.requesterDAO">
+	<resultMap id="requesterMap" type="countstar.counts2.model.Requester">
+		<result column="phnum" property="phNum" />
+		<result column="psw" property="psw" />
+		<result column="nickname" property="nickName" />
+		<result column="credits" property="credits" />
+	</resultMap>
+	<!-- 判断是否存在此客户 -->
+	<select id="isExist" resultType="Integer">
+		select 1 from requesters where phnum = #{phNum} limit 1
+	</select>
+
+
+	<!-- 根据手机号得到客户信息 -->
+	<select id="getRequesterByPhNum" resultMap="requesterMap">
+		select * from requesters where phnum = #{phNum}
+	</select>
+
+
+	<!-- 得到所有客户信息 -->
+	<select id="getAllRequesters" resultMap="requesterMap">
+		select * from requesters
+	</select>
+
+
+	<!-- 更新客户信息 -->
+	<update id="updateR">
+		update requesters set phnum = #{requester.phNum},psw = #{requester.psw},nickname = #{requester.nickName},credits=#{requester.credits}
+	</update>
+
+
+
+	<!-- 新建用户信息 -->
+	<insert id="insertR">
+		insert into requesters (phnum,psw,nickname,credits)
+		values
+		(#{requester.phNum},#{requester.psw},#{requester.nickname},#{requester.credits})
+	</insert>
+
+</mapper>

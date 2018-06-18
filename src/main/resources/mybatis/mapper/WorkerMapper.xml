@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="countstar.counts2.dao.UserDAO.workerDAO">
+	<resultMap id="workerMap" type="countstar.counts2.model.Worker">
+		<id column="phnum" property="phNum" />
+		<result column="psw" property="psw" />
+		<result column="nickname" property="nickName" />
+		<result column="credits" property="credits" />
+	</resultMap>
+	<!-- 判断是否存在此用户 -->
+	<select id="isExist" resultType="Integer">
+		select 1 from workers where phnum = #{phNum}
+	</select>
+
+
+	<!-- 根据手机号得到工人信息 -->
+	<select id="getWorkerByPhNum" resultMap="workerMap">
+		select * from workers where phnum = #{phNum}
+	</select>
+
+
+	<!-- 得到所有众包工人信息 -->
+	<select id="getAllWorkers" resultMap="workerMap">
+		select * from workers
+	</select>
+
+
+	<!-- 更新众包工人信息 -->
+	<update id="updateW">
+		update workers set phnum = #{worker.phNum},psw = #{worker.psw},nickname = #{worker.nickName},credits=#{worker.credits}
+	</update>
+
+
+
+	<!-- 新建用户信息 -->
+	<insert id="insertW">
+		insert into workers (phnum,psw,nickname,credits)
+		values
+		(#{worker.phNum},#{worker.psw},#{worker.nickname},#{worker.credits})
+	</insert>
+
+</mapper>
